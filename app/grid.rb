@@ -20,6 +20,33 @@ class Grid
         @grid[row][column]
     end
 
+    def to_s
+        # The to string method will only look at north and east walls of each cell.
+        out = ""
+        each_row do |row|
+            row_top = "+"
+            row_mid = "|"
+            row.each do |cell|
+                if cell.north
+                    cell.linked?(cell.north) ? row_top << "   +" : row_top << "---+"
+                else
+                    row_top << "---+"
+                end
+                if cell.east
+                    cell.linked?(cell.east) ? row_mid << "    " : row_mid << "   |"
+                else
+                    row_mid << "   |"
+                end
+                
+            end
+            out << row_top << "\n" << row_mid << "\n"
+        end
+        bottom = "+" + "---+"*columns
+        out << bottom
+
+        out
+    end
+
     def initialize(rows, columns)
         # Rows and columns hold the number of rows and columns.
         @rows = rows
