@@ -33,14 +33,15 @@ class Cell
     def cell_in_dir(dir)
         case dir
         when Direction.north
-            cell.north
+            self.north
         when Direction.east
-            cell.east
+            self.east
         when Direction.south
-            cell.south
+            self.south
         when Direction.west
-            cell.west
+            self.west
         end
+        nil
     end
 
     def links
