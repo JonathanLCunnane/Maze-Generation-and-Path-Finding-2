@@ -1,4 +1,4 @@
-require 'cell'
+require_relative 'cell'
 
 # We need to be able to generate an empty grid in generate_grid.
 # And also configure the cells by setting the cells in each of
@@ -12,11 +12,11 @@ require 'cell'
 
 
 class Grid
-    attr_reader: :rows, :columns
+    attr_reader :rows, :columns
 
     def [](row, column)
-        return nil unless row.between?(0..@rows-1)
-        return nil unless column.between?(0..@columns-1)
+        return nil unless row.between?(0, @rows-1)
+        return nil unless column.between?(0, @grid[row].count-1)
         @grid[row][column]
     end
 

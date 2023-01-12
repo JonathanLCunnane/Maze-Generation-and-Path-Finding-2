@@ -1,3 +1,5 @@
+require_relative 'direction'
+
 # In our cell class, we want to be able to query the cells in the
 # cardinal directions which are accessible in 'neighbours'
 # We also want to be able to be able to retrieve the cell
@@ -10,7 +12,7 @@
 
 class Cell
     attr_reader :row, :column
-    attr_accessor: :north, :south, :east, :west
+    attr_accessor :north, :south, :east, :west
     
     def initialize(row, column)
         @row, @column = row, column
@@ -26,6 +28,19 @@ class Cell
         directions << east if east
         directions << south if south
         directions << west if west
+    end
+
+    def cell_in_dir(dir)
+        case dir
+        when Direction.north
+            cell.north
+        when Direction.east
+            cell.east
+        when Direction.south
+            cell.south
+        when Direction.west
+            cell.west
+        end
     end
 
     def links
