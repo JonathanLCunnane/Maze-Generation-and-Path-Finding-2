@@ -9,7 +9,7 @@ require_relative 'direction'
 
 class BinaryTree
 
-    def self.execute_on(grid, dir_one=Direction.north, dir_two=Direction.east, bias=0.5)
+    def self.execute_on(grid, bias=0.5, dir_one=Direction.north, dir_two=Direction.east)
         raise "'dir_one' cannot equal 'dir_two'" if dir_one == dir_two
         count = 0
         grid.each_cell do |cell|
@@ -22,7 +22,7 @@ class BinaryTree
             end
 
         end
-        
+
         grid
     end
 end
