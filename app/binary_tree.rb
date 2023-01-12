@@ -11,19 +11,18 @@ class BinaryTree
 
     def self.execute_on(grid, dir_one=Direction.north, dir_two=Direction.east, bias=0.5)
         raise "'dir_one' cannot equal 'dir_two'" if dir_one == dir_two
-
+        count = 0
         grid.each_cell do |cell|
-            
-            if rand() < bias
-                cell_in_dir_one = cell.cell_in_dir(dir_one)
-                cell.link(cell_in_dir_one) if cell_in_dir_one
-            else
-                cell_in_dir_two = cell.cell_in_dir(dir_two)
-                cell.link(cell_in_dir_two) if cell_in_dir_two
+            cell_in_dir_one = cell.cell_in_dir(dir_one)
+            cell_in_dir_two = cell.cell_in_dir(dir_two)
+            if rand() < bias            
+                cell_in_dir_one ? cell.link(cell_in_dir_one) : (cell.link(cell_in_dir_two) if cell_in_dir_two)
+            else             
+                cell_in_dir_two ? cell.link(cell_in_dir_two) : (cell.link(cell_in_dir_one) if cell_in_dir_one)
             end
 
         end
-
+        
         grid
     end
 end
