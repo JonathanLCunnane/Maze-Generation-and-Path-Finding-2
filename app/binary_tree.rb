@@ -11,6 +11,7 @@ class BinaryTree
 
     def self.execute_on(grid, bias=0.5, dir_one=Direction.north, dir_two=Direction.east)
         raise "'dir_one' cannot equal 'dir_two'" if dir_one == dir_two
+        raise "'dir_one cannot be opposite to 'dir_two" if Direction.opposites?(dir_one, dir_two)
         count = 0
         grid.each_cell do |cell|
             cell_in_dir_one = cell.cell_in_dir(dir_one)
