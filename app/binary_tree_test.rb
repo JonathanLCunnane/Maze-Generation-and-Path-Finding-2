@@ -19,7 +19,7 @@ Benchmark.bm(20) do |benchmark|
     ]
   end
   grids.each do |grid|
-    benchmark.report('%<grid.rows>d x %<grid.columns>d') { BinaryTree.execute_on(grid) }
+    benchmark.report("#{grid.rows} x #{grid.columns}") { BinaryTree.execute_on(grid) }
   end
 end
 

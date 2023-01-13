@@ -21,18 +21,27 @@ class BinaryTree
     grid
   end
 
-  private
-
-  def raise_dir_error(dir_one, dir_two)
+  def self.raise_dir_error(dir_one, dir_two)
     raise "'dir_one' cannot equal 'dir_two'" if dir_one == dir_two
     raise "'dir_one cannot be opposite to 'dir_two" if Direction.opposites?(dir_one, dir_two)
   end
 
-  def select_and_link(cell, cell_in_dir_one, cell_in_dir_two, bias)
+  def self.select_and_link(cell, cell_in_dir_one, cell_in_dir_two, bias)
     if rand < bias
-      cell_in_dir_one ? cell.link(cell_in_dir_one) : (cell.link(cell_in_dir_two) if cell_in_dir_two)
+      try_link(cell, cell_in_dir_one, cell_in_dir_two)
     else
-      cell_in_dir_two ? cell.link(cell_in_dir_two) : (cell.link(cell_in_dir_one) if cell_in_dir_one)
+      try_link(cell, cell_in_dir_two, cell_in_dir_one)
     end
   end
+
+  def self.try_link(cell, cell_priority, cell_secondary)
+    if cell_priority
+      cell.link(cell_priority)
+    elsif cell_secondary
+      cell.link(cell_secondary)
+    end
+  end
+
+  private_class_method :raise_dir_error, :select_and_link, :try_link
+
 end

@@ -10,95 +10,116 @@ require_relative 'cell'
 # Random cell selection is in random_cell.
 # The number of cells is in count.
 
-
+# A class to represent a maze grid of cells.
 class Grid
-    attr_reader :rows, :columns
+  attr_reader :rows, :columns
 
-    def [](row, column)
-        return nil unless row.between?(0, @rows-1)
-        return nil unless column.between?(0, @grid[row].count-1)
-        @grid[row][column]
+  def [](row, column)
+    return nil unless row.between?(0, @rows - 1)
+    return nil unless column.between?(0, @grid[row].count - 1)
+
+    @grid[row][column]
+  end
+
+  def to_s
+    # The to string method will only look at north and east walls of each cell.
+    out = ''
+    each_row do |row|
+      out << row_to_s(row)
     end
+    bottom = "+ #{'---+' * columns}"
+    out << bottom
 
-    def to_s
-        # The to string method will only look at north and east walls of each cell.
-        out = ""
-        each_row do |row|
-            row_top = "+"
-            row_mid = "|"
-            row.each do |cell|
-                if cell.north
-                    cell.linked?(cell.north) ? row_top << "   +" : row_top << "---+"
-                else
-                    row_top << "---+"
-                end
-                if cell.east
-                    cell.linked?(cell.east) ? row_mid << "    " : row_mid << "   |"
-                else
-                    row_mid << "   |"
-                end
-                
-            end
-            out << row_top << "\n" << row_mid << "\n"
-        end
-        bottom = "+" + "---+"*columns
-        out << bottom
+    out
+  end
 
-        out
+  def initialize(rows, columns)
+    # Rows and columns hold the number of rows and columns.
+    @rows = rows
+    @columns = columns
+
+    # Setup and configure the grid
+    @grid = generate_grid
+    configure_grid
+  end
+
+  def generate_grid
+    Array.new(rows) do |row|
+      Array.new(columns) do |column|
+        Cell.new(row, column)
+      end
     end
+  end
 
-    def initialize(rows, columns)
-        # Rows and columns hold the number of rows and columns.
-        @rows = rows
-        @columns = columns
-
-        # Setup and configure the grid
-        @grid = generate_grid
-        configure_grid
+  def each_row
+    @grid.each do |row|
+      yield row
     end
+  end
 
-    def generate_grid
-        Array.new(rows) do |row|
-            Array.new(columns) do |column|
-                Cell.new(row, column)
-            end
-        end
+  def each_cell
+    each_row do |row|
+      row.each do |cell|
+        yield cell
+      end
     end
+  end
 
-    def each_row
-        @grid.each do |row|
-            yield row
-        end
+  def configure_grid
+    each_cell do |cell|
+      row = cell.row
+      column = cell.column
+
+      cell.north = self[row - 1, column]
+      cell.east = self[row, column + 1]
+      cell.south = self[row + 1, column]
+      cell.west = self[row, column - 1]
     end
+  end
 
-    def each_cell
-        each_row do |row|
-            row.each do |cell|
-                yield cell
-            end
-        end
+  def random_cell
+    rand_row = rand(@rows)
+    rand_column = rand(@grid[row].count)
+
+    self[rand_row, rand_column]
+  end
+
+  def count
+    @rows * @columns
+  end
+
+  private
+
+  def row_to_s(row)
+    row_top = '+'
+    row_mid = '|'
+    row.each do |cell|
+      rows = cell_to_s(cell, row_top, row_mid)
+      row_top = rows['row_top']
+      row_mid = rows['row_mid']
     end
+    row_top << "\n" << row_mid << "\n"
+  end
 
-    def configure_grid
-        each_cell do |cell|
-            row, column = cell.row, cell.column
+  def cell_to_s(cell, row_top, row_mid)
+    row_top = row_top_to_s(cell, row_top)
+    row_mid = row_mid_to_s(cell, row_mid)
+    { 'row_top' => row_top, 'row_mid' => row_mid }
+  end
 
-            cell.north = self[row-1, column]
-            cell.east = self[row, column+1]
-            cell.south = self[row+1, column]
-            cell.west = self[row, column-1]
-        end
-    end
+  def row_top_to_s(cell, row_top)
+    row_top << if cell.north
+                 (cell.linked?(cell.north) ? '   +' : '---+')
+               else
+                 '---+'
+               end
+  end
 
-    def random_cell
-        rand_row = rand(@rows)
-        rand_column = rand(@grid[row].count)
-
-        self[rand_row, rand_column]
-    end
-
-    def count
-        @rows * @columns
-    end
-
+  def row_mid_to_s(cell, row_mid)
+    row_mid << if cell.east
+                 (cell.linked?(cell.east) ? '    ' : '   |')
+               else
+                 '   |'
+               end
+  end
 end
