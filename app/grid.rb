@@ -25,11 +25,11 @@ class Grid
 
   def to_s
     # The to string method will only look at north and east walls of each cell.
-    out = ''
+    out = +''
     each_row do |row|
       out << row_to_s(row)
     end
-    bottom = "+ #{'---+' * columns}"
+    bottom = "+#{'---+' * columns}"
     out << bottom
 
     out
@@ -89,8 +89,8 @@ class Grid
   private
 
   def row_to_s(row)
-    row_top = '+'
-    row_mid = '|'
+    row_top = +'+'
+    row_mid = +'|'
     row.each do |cell|
       rows = cell_to_s(cell, row_top, row_mid)
       row_top = rows['row_top']
