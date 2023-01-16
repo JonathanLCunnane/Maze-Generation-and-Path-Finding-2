@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require_relative 'cell'
 
 # We need to be able to generate an empty grid in generate_grid.
@@ -51,17 +53,13 @@ class Grid
     end
   end
 
-  def each_row
-    @grid.each do |row|
-      yield row
-    end
+  def each_row(&block)
+    @grid.each(&block)
   end
 
-  def each_cell
+  def each_cell(&block)
     each_row do |row|
-      row.each do |cell|
-        yield cell
-      end
+      row.each(&block)
     end
   end
 

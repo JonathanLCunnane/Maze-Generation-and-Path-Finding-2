@@ -55,15 +55,15 @@ class Cell
     @cell_links.key?(cell)
   end
 
-  def link(cell, bidirectional = true)
+  def link(cell, bidirectional: true)
     @cell_links[cell] = true
-    cell.link(self, false) if bidirectional
+    cell.link(self, bidirectional: false) if bidirectional
     self
   end
 
   def unlink(cell, bidirectional: true)
     @cell_links.delete(cell)
-    cell.unlink(self, false) if bidirectional
+    cell.unlink(self, bidirectional: false) if bidirectional
     self
   end
 end

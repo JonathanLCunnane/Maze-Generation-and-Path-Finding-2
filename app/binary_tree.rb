@@ -43,5 +43,4 @@ class BinaryTree
   end
 
   private_class_method :raise_dir_error, :select_and_link, :try_link
-
 end
