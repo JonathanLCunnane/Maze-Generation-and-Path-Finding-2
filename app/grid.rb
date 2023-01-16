@@ -16,6 +16,16 @@ require_relative 'cell'
 class Grid
   attr_reader :rows, :columns
 
+  def initialize(rows, columns)
+    # Rows and columns hold the number of rows and columns.
+    @rows = rows
+    @columns = columns
+
+    # Setup and configure the grid
+    @grid = generate_grid
+    configure_grid
+  end
+
   def [](row, column)
     return nil unless row.between?(0, @rows - 1)
     return nil unless column.between?(0, @grid[row].count - 1)
@@ -33,16 +43,6 @@ class Grid
     out << bottom
 
     out
-  end
-
-  def initialize(rows, columns)
-    # Rows and columns hold the number of rows and columns.
-    @rows = rows
-    @columns = columns
-
-    # Setup and configure the grid
-    @grid = generate_grid
-    configure_grid
   end
 
   def generate_grid
