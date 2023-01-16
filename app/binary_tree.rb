@@ -11,6 +11,7 @@ require_relative 'direction'
 
 # A class to implement the binary tree generation algorithm.
 class BinaryTree
+  # Bias is the probability that dir_one is chosen.
   def self.execute_on(grid, bias = 0.5, dir_one = Direction.north, dir_two = Direction.east)
     raise_dir_error(dir_one, dir_two)
     grid.each_cell do |cell|
