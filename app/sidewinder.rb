@@ -46,10 +46,10 @@ class Sidewinder
       run_ended = run_end(run, run_dir, closing_dir)
       run.clear
     end
-    if !run_ended
-      # Otherwise carve in run_dir
-      try_carve(cell, run_dir, closing_dir)
-    end
+    return if run_ended
+
+    # Otherwise carve in run_dir
+    try_carve(cell, run_dir, closing_dir)
   end
 
   def self.run_end(run_cells, run_dir, closing_dir)
