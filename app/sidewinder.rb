@@ -8,6 +8,7 @@ require_relative 'direction'
 # the closing_dir is the direction in which one carve is made along the length of the run.
 
 # A class to implement the sidewinder generation algorithm.
+# ONLY DEFAULT GRID RUN AND CLOSE IS IMPLEMENTED. DO NOT CHANGE RUN_DIR AND CLOSING_DIR.
 class Sidewinder
   # Bias is the probability that run_dir is chosen.
   def self.execute_on(grid, bias = 0.5, run_dir = Direction.east, closing_dir = Direction.north)
@@ -23,6 +24,7 @@ class Sidewinder
   end
 
   def self.lateral_grid_run(grid, bias, run_dir, closing_dir)
+    # We need to reverse the array if we are going in the west direction.
     grid.each_row do |row|
       # Run has to be reset every row.
       run = []
@@ -31,10 +33,16 @@ class Sidewinder
         choose_carve(bias, cell, run, run_dir, closing_dir)
       end
     end
+    # ... and then reverse it back.
+    # grid.reverse_grid if run_dir == Direction.west
   end
 
-  def self.longitudinal_grid_run(grid)
-    grid
+  def self.longitudinal_grid_run(grid, bias, run_dir, closing_dir)
+    # To run the algorithm longitudinally, run the algorithm laterally.
+    # Then transpose the grid.
+    # lateral_grid_run(grid, bias, Direction.opposite(closing_dir), Direction.opposite(run_dir))
+    # grid.transpose_grid
+    lateral_grid_run(grid, bias, run_dir, closing_dir)
   end
 
   def self.choose_carve(bias, cell, run, run_dir, closing_dir)
