@@ -57,17 +57,7 @@ class Grid
     png = ChunkyPNG::Image.new(width + 1, height + 1, background_colour)
 
     each_cell do |cell|
-      x1 = cell.column * cell_size
-      y1 = cell.row * cell_size
-      x2 = (cell.column + 1) * cell_size
-      y2 = (cell.row + 1) * cell_size
-
-      png.line(x1, y1, x2, y1, wall_colour) unless cell.linked?(cell.north)
-      png.line(x2, y1, x2, y2, wall_colour) unless cell.linked?(cell.east)
-
-      png.line(x1, y2, x2, y2, wall_colour) unless cell.south
-      png.line(x1, y1, x1, y2, wall_colour) unless cell.west
-
+      draw_cell_lines(cell, cell_size, png, wall_colour)
     end
 
     png
@@ -147,5 +137,19 @@ class Grid
                else
                  '   |'
                end
+  end
+
+  def draw_cell_lines(cell, cell_size, png, wall_colour)
+    x1 = cell.column * cell_size
+    y1 = cell.row * cell_size
+    x2 = (cell.column + 1) * cell_size
+    y2 = (cell.row + 1) * cell_size
+
+    png.line(x1, y1, x2, y1, wall_colour) unless cell.linked?(cell.north)
+    png.line(x2, y1, x2, y2, wall_colour) unless cell.linked?(cell.east)
+
+    png.line(x1, y2, x2, y2, wall_colour) unless cell.south
+    png.line(x1, y1, x1, y2, wall_colour) unless cell.west
+    png
   end
 end
