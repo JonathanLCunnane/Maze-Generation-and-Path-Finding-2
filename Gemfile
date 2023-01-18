@@ -1,4 +1,4 @@
 # frozen_string_literal: true
 
 gem 'rubocop'
-gem 'solargraph', group: development
+gem 'solargraph', group: 'development'
