@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require_relative 'cell'
+require 'chunky_png'
 
 # We need to be able to generate an empty grid in generate_grid.
 # And also configure the cells by setting the cells in each of
@@ -43,6 +44,33 @@ class Grid
     out << bottom
 
     out
+  end
+
+  # Cell size is in pixels.
+  def to_png(cell_size: 10)
+    width = cell_size * @columns
+    height = cell_size * @rows
+
+    background_colour = ChunkyPNG::Color::WHITE
+    wall_colour = ChunkyPNG::Color::BLACK
+
+    png = ChunkyPNG::Image.new(width + 1, height + 1, background_colour)
+
+    each_cell do |cell|
+      x1 = cell.column * cell_size
+      y1 = cell.row * cell_size
+      x2 = (cell.column + 1) * cell_size
+      y2 = (cell.row + 1) * cell_size
+
+      png.line(x1, y1, x2, y1, wall_colour) unless cell.linked?(cell.north)
+      png.line(x2, y1, x2, y2, wall_colour) unless cell.linked?(cell.east)
+
+      png.line(x1, y2, x2, y2, wall_colour) unless cell.south
+      png.line(x1, y1, x1, y2, wall_colour) unless cell.west
+
+    end
+
+    png
   end
 
   def generate_grid
