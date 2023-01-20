@@ -68,15 +68,16 @@ class Cell
     self
   end
 
-  def calculate_distances
+  def distances
     distances = Distances.new(self)
     queue = [self]
-    queue, distances = update_queue_and_distances(queue, distances) while queue.any?
+    queue, distances = get_new_queue_and_distances(queue, distances) while queue.any?
+    distances
   end
 
   private
 
-  def update_queue_and_distances(queue, distances)
+  def get_new_queue_and_distances(queue, distances)
     next_queue = []
     queue.each do |cell|
       cell.links.each do |next_cell|
@@ -86,6 +87,7 @@ class Cell
         distances[next_cell] = distances[cell] + 1
       end
     end
-    [next_queue, distances]
+    queue = next_queue
+    [queue, distances]
   end
 end
