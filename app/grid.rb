@@ -34,6 +34,11 @@ class Grid
     @grid[row][column]
   end
 
+  # This is usually just a space and will be overridden in classes which want to display different information inside the cells.
+  def contents_of(_cell)
+    ' '
+  end
+
   def to_s
     # The to string method will only look at north and east walls of each cell.
     out = +''
@@ -132,10 +137,11 @@ class Grid
   end
 
   def row_mid_to_s(cell, row_mid)
+    contents_of_cell = contents_of(cell)
     row_mid << if cell.east
-                 (cell.linked?(cell.east) ? '    ' : '   |')
+                 (cell.linked?(cell.east) ? " #{contents_of_cell}  " : " #{contents_of_cell} |")
                else
-                 '   |'
+                 " #{contents_of_cell} |"
                end
   end
 
