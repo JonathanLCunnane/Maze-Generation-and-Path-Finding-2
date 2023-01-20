@@ -19,4 +19,26 @@ class Distances
   def cells
     @cell_dists.keys
   end
+
+  def path_to(goal_cell)
+    current_cell = goal_cell
+
+    path = Distances.new(@root)
+    path[current_cell] = @cell_dists[current_cell]
+
+    current_cell, path = backtrack_once(current_cell, path) until current_cell == @root
+
+    path
+  end
+
+  private
+
+  def backtrack_once(current_cell, path)
+    current_cell.links.each do |next_cell|
+      if @cell_dists[next_cell] < @cell_dists[current_cell]
+        path[next_cell] = @cell_dists[next_cell]
+        return [next_cell, path]
+      end
+    end
+  end
 end
