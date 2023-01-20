@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require_relative 'direction'
+require_relative 'distances'
 
 # In our cell class, we want to be able to query the cells in the
 # cardinal directions which are accessible in 'neighbours'
@@ -65,5 +66,26 @@ class Cell
     @cell_links.delete(cell)
     cell.unlink(self, bidirectional: false) if bidirectional
     self
+  end
+
+  def calculate_distances
+    distances = Distances.new(self)
+    queue = [self]
+    queue, distances = update_queue_and_distances(queue, distances) while queue.any?
+  end
+
+  private
+
+  def update_queue_and_distances(queue, distances)
+    next_queue = []
+    queue.each do |cell|
+      cell.links.each do |next_cell|
+        next if distances[next_cell]
+
+        next_queue << next_cell
+        distances[next_cell] = distances[cell] + 1
+      end
+    end
+    [next_queue, distances]
   end
 end
