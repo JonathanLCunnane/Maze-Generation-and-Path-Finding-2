@@ -66,7 +66,7 @@ class Grid
 
     png = ChunkyPNG::Image.new(width + 1, height + 1, background_colour)
 
-    %i[lines background].each do |mode|
+    %i[background lines].each do |mode| # Background first then lines
       each_cell do |cell|
         if mode == :lines
           draw_cell_lines(cell, cell_size, png, wall_colour)
@@ -76,7 +76,7 @@ class Grid
         end
       end
     end
-    
+
     png
   end
 
@@ -177,7 +177,7 @@ class Grid
     x2 = (cell.column + 1) * cell_size
     y2 = (cell.row + 1) * cell_size
 
-    png.rect(x1, y1, x2, y2, background_colour)
+    png.rect(x1, y1, x2, y2, background_colour, background_colour)
     png
   end
 
