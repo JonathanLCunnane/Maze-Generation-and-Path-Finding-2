@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+# rubocop:disable Metrics/ClassLength
 
 require_relative 'cell'
 require 'chunky_png'
@@ -39,6 +40,10 @@ class Grid
     ' '
   end
 
+  def background_of(_cell)
+    nil
+  end
+
   def to_s
     # The to string method will only look at north and east walls of each cell.
     out = +''
@@ -61,10 +66,17 @@ class Grid
 
     png = ChunkyPNG::Image.new(width + 1, height + 1, background_colour)
 
-    each_cell do |cell|
-      draw_cell_lines(cell, cell_size, png, wall_colour)
+    %i[lines background].each do |mode|
+      each_cell do |cell|
+        if mode == :lines
+          draw_cell_lines(cell, cell_size, png, wall_colour)
+        else # mode == :background
+          cell_background_colour = background_of(cell)
+          draw_cell_background(cell, cell_size, png, cell_background_colour) if cell_background_colour
+        end
+      end
     end
-
+    
     png
   end
 
@@ -158,4 +170,16 @@ class Grid
     png.line(x1, y1, x1, y2, wall_colour) unless cell.west
     png
   end
+
+  def draw_cell_background(cell, cell_size, png, background_colour)
+    x1 = cell.column * cell_size
+    y1 = cell.row * cell_size
+    x2 = (cell.column + 1) * cell_size
+    y2 = (cell.row + 1) * cell_size
+
+    png.rect(x1, y1, x2, y2, background_colour)
+    png
+  end
+
 end
+# rubocop:enable Metrics/ClassLength
