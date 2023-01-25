@@ -31,6 +31,20 @@ class Distances
     path
   end
 
+  def max
+    max_dist = 0
+    max_cell = @root
+
+    @cell_dists.each do |cell, dist|
+      if dist > max_dist
+        max_dist = dist
+        max_cell = cell
+      end
+    end
+
+    [max_cell, max_dist]
+  end
+
   private
 
   def backtrack_once(current_cell, path)
