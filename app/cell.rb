@@ -33,6 +33,7 @@ class Cell
     directions << east if east
     directions << south if south
     directions << west if west
+    directions
   end
 
   def cell_in_dir(dir)
