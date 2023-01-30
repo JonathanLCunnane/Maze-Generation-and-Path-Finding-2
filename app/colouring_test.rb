@@ -29,7 +29,7 @@ puts 'Progress:'
   ].each do |generation_alg, alg_name|
     get_and_save_png(generation_alg, alg_name)
   end
-  puts "#{(iter.to_f / iters * 100).round.to_s}%"
+  puts "#{(iter.to_f / iters * 100).round}%"
 end
 puts 'DONE'
 
