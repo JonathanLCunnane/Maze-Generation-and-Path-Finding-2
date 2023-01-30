@@ -16,12 +16,21 @@ def get_and_save_png(generation_alg, alg_name)
   grid.to_png.save "./out/#{alg_name}_colouring_test_#{curr_time}_#{grid.rows}_#{grid.columns}.png"
 end
 
-[
-  [Sidewinder.method(:execute_on), 'sidewinder'],
-  [BinaryTree.method(:execute_on), 'binary_tree'],
-  [AldousBroder.method(:execute_on), 'aldous_broder']
-].each do |generation_alg, alg_name|
-  get_and_save_png(generation_alg, alg_name)
+puts 'Enter the iterations of each generation algorithm (25 >= inp >= 1):'
+iters = gets.chomp.to_i
+abort('Input has to be in range 1..25 and be an integer') if iters <= 0 || iters > 25
+puts 'Progress:'
+
+1.upto(iters) do |iter|
+  [
+    [Sidewinder.method(:execute_on), 'sidewinder'],
+    [BinaryTree.method(:execute_on), 'binary_tree'],
+    [AldousBroder.method(:execute_on), 'aldous_broder']
+  ].each do |generation_alg, alg_name|
+    get_and_save_png(generation_alg, alg_name)
+  end
+  puts "#{(iter.to_f / iters * 100).round.to_s}%"
 end
+puts 'DONE'
 
 puts "Grid pngs have been stored in the 'out' folder"
