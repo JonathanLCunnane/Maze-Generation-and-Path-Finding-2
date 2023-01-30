@@ -6,7 +6,6 @@ class AldousBroder
     curr_cell = grid.random_cell
     to_visit = grid.count - 1
     while to_visit.positive?
-      puts "#{curr_cell.row}, #{curr_cell.column}" if curr_cell.neighbours.length == 0
       next_cell = curr_cell.neighbours.sample
 
       to_visit -= 1 if link_if_unvisited(curr_cell, next_cell)
