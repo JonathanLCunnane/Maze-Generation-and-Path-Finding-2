@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 # A class which implements the Aldous-Broder unbiased, random generation algorithm.
+# Aldous broder is slow to finish.
 class AldousBroder
   def self.execute_on(grid)
     curr_cell = grid.random_cell
