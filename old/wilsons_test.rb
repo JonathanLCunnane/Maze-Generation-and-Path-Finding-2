@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require_relative 'wilsons'
+require_relative '../app/wilsons'
 require_relative 'grid'
 require_relative 'direction'
 require 'benchmark'

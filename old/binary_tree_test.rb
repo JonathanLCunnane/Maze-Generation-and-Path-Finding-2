@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require_relative 'sidewinder'
+require_relative '../app/binary_tree'
 require_relative 'grid'
 require_relative 'direction'
 require 'benchmark'
@@ -22,14 +22,14 @@ Benchmark.bm(20) do |benchmark|
     ]
   end
   grids.each do |grid|
-    benchmark.report("#{grid.rows} x #{grid.columns}") { Sidewinder.execute_on(grid) }
+    benchmark.report("#{grid.rows} x #{grid.columns}") { BinaryTree.execute_on(grid) }
     out << "#{grid}\n\n" if grid.columns <= 25
     curr_time = time.strftime('%Y_%m_%d_%H_%M_%S')
-    grid.to_png.save "./out/sidewinder_#{curr_time}_#{grid.rows}_#{grid.columns}.png"
+    grid.to_png.save "./out/binary_tree_#{curr_time}_#{grid.rows}_#{grid.columns}.png"
   end
 end
 
-puts 'Sidewinder benchmark finished.'
+puts 'Binary Tree benchmark finished.'
 puts "Grid pngs have been stored in the 'out' folder"
 puts 'Grids for columns <= 25 are below:'
 puts out

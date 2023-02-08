@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require_relative 'aldous_broder'
+require_relative '../app/aldous_broder'
 require_relative 'grid'
 require_relative 'direction'
 require 'benchmark'
