@@ -5,6 +5,7 @@ require_relative 'binary_tree'
 require_relative 'sidewinder'
 require_relative 'aldous_broder'
 require_relative 'wilsons'
+require_relative 'hunt_and_kill'
 
 def get_and_save_png(generation_alg, alg_name)
   grid = ColourGrid.new(75, 75)
@@ -27,7 +28,8 @@ puts 'Progress:'
     [Sidewinder.method(:execute_on), 'sidewinder'],
     [BinaryTree.method(:execute_on), 'binary_tree'],
     [AldousBroder.method(:execute_on), 'aldous_broder'],
-    [Wilsons.method(:execute_on), 'wilsons']
+    [Wilsons.method(:execute_on), 'wilsons'],
+    [HuntAndKill.method(:execute_on), 'hunt_and_kill']
   ].each do |generation_alg, alg_name|
     get_and_save_png(generation_alg, alg_name)
   end
