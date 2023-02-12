@@ -121,6 +121,14 @@ class Grid
     @rows * @columns
   end
 
+  def deadends
+    deadends = []
+    each_cell do |cell|
+      deadends << cell if cell.links.count == 1
+    end
+    deadends
+  end
+
   private
 
   def row_to_s(row)
