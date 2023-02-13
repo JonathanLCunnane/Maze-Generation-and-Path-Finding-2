@@ -1,11 +1,13 @@
 # frozen_string_literal: true
 
 require_relative 'colour_grid'
+
 require_relative 'binary_tree'
 require_relative 'sidewinder'
 require_relative 'aldous_broder'
 require_relative 'wilsons'
 require_relative 'hunt_and_kill'
+require_relative 'recursive_backtracker'
 
 def get_and_save_png(generation_alg, alg_name)
   grid = ColourGrid.new(75, 75)
@@ -29,7 +31,8 @@ puts 'Progress:'
     [BinaryTree.method(:execute_on), 'binary_tree'],
     [AldousBroder.method(:execute_on), 'aldous_broder'],
     [Wilsons.method(:execute_on), 'wilsons'],
-    [HuntAndKill.method(:execute_on), 'hunt_and_kill']
+    [HuntAndKill.method(:execute_on), 'hunt_and_kill'],
+    [RecursiveBacktracker.method(:execute_on), 'recursive_backtracker']
   ].each do |generation_alg, alg_name|
     get_and_save_png(generation_alg, alg_name)
   end

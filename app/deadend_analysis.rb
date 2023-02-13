@@ -5,6 +5,7 @@ require_relative 'grid'
 require_relative 'aldous_broder'
 require_relative 'binary_tree'
 require_relative 'hunt_and_kill'
+require_relative 'recursive_backtracker'
 require_relative 'sidewinder'
 require_relative 'wilsons'
 
@@ -12,6 +13,7 @@ algs = [
   [AldousBroder.method(:execute_on), 'aldous_broder'],
   [BinaryTree.method(:execute_on), 'binary_tree'],
   [HuntAndKill.method(:execute_on), 'hunt_and_kill'],
+  [RecursiveBacktracker.method(:execute_on), 'recursive_backtracker'],
   [Sidewinder.method(:execute_on), 'sidewinder'],
   [Wilsons.method(:execute_on), 'wilsons']
 ]
