@@ -35,7 +35,8 @@ class Grid
     @grid[row][column]
   end
 
-  # This is usually just a space and will be overridden in classes which want to display different information inside the cells.
+  # This is usually just a space and will be overridden in classes which want to display different
+  # inside the cells.
   def contents_of(_cell)
     ' '
   end
@@ -92,9 +93,11 @@ class Grid
     @grid.each(&block)
   end
 
-  def each_cell(&block)
+  def each_cell
     each_row do |row|
-      row.each(&block)
+      row.each do |cell|
+        yield cell if cell
+      end
     end
   end
 
@@ -135,6 +138,7 @@ class Grid
     row_top = +'+'
     row_mid = +'|'
     row.each do |cell|
+      cell ||= Cell.new(-1, -1)
       rows = cell_to_s(cell, row_top, row_mid)
       row_top = rows['row_top']
       row_mid = rows['row_mid']
