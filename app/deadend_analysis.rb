@@ -26,24 +26,51 @@ abort('Input has to be in range 10..50 and be an integer') if maze_size < 10 || 
 repeats = 100
 
 avg_count = {}
+min_count = {}
+max_count = {}
+standard_deviation = {}
 algs.each do |alg, name|
   puts "Analysing #{name}"
 
   counts = []
+  min_count[name] = maze_size**2
+  max_count[name] = 0
+
   repeats.times do
     grid = Grid.new(maze_size, maze_size)
     alg.call(grid)
-    counts << grid.deadends.count
+    count = grid.deadends.size
+
+    counts << count
+    min_count[name] = count if count < min_count[name]
+    max_count[name] = count if count > max_count[name]
   end
 
-  avg = counts.sum / counts.count
+  avg = counts.sum / counts.size
   avg_count[name] = avg
+
+  variance = counts.sum { |count| (count - avg)**2 } / counts.size
+  standard_deviation[name] = variance**0.5
 end
 
-puts "The sorted average deadends for a #{maze_size}x#{maze_size} maze (#{maze_size**2} cells) is:\n\n"
+puts "\nBelow is the deadend analysis output for a #{maze_size}x#{maze_size} maze (#{maze_size**2} cells):"
+puts "NOTE: The algorithms are sorted by the average number of deadends in descending order.\n\n"
 
 sorted_count_arr = avg_count.sort_by { |_name, count| -count }
 sorted_count_arr.each do |name, count|
-  percentage = 100 * avg_count[name] / maze_size**2
-  puts "#{name} #{percentage}% #{count}/#{maze_size**2}"
+  puts "#{name}:"
+
+  avg_percentage = 100 * avg_count[name] / maze_size**2
+  puts "Average # of deadends: #{avg_percentage}% #{count}/#{maze_size**2}"
+
+  std_deviation_percentage = 100 * standard_deviation[name] / maze_size**2
+  std_deviation_percentage = std_deviation_percentage.round
+  standard_deviation[name] = standard_deviation[name].round
+  puts "Standard deviation of # of deadends: #{std_deviation_percentage}% #{standard_deviation[name]}/#{maze_size**2}"
+
+  max_percentage = 100 * max_count[name] / maze_size**2
+  min_percentage = 100 * min_count[name] / maze_size**2
+  print "Range of # of deadends: #{min_percentage}% to #{max_percentage}% "
+  $stdout.flush
+  puts "#{min_count[name]}/#{maze_size**2} to #{max_count[name]}/#{maze_size**2}\n\n"
 end
