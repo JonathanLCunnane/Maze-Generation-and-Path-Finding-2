@@ -6,6 +6,22 @@
 class Mask
   attr_reader :rows, :columns
 
+  def self.from_txt(file_name)
+    lines = File.readlines(file_name).map(&:strip)
+
+    rows = lines.length
+    columns = lines[0].length
+    mask = new(rows, columns)
+
+    mask.rows.times do |row|
+      mask.columns.times do |column|
+        mask[row, column] = (lines[row][column] != 'X')
+      end
+    end
+
+    mask
+  end
+
   def initialize(rows, columns)
     @rows = rows
     @columns = columns
