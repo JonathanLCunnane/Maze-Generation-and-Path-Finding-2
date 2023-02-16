@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'chunky_png'
+
 # Stores a 2D array of bits.
 # 'true' means a cell is enabled.
 # 'false' means a cell is disabled.
@@ -16,6 +18,22 @@ class Mask
     mask.rows.times do |row|
       mask.columns.times do |column|
         mask[row, column] = (lines[row][column] != 'X')
+      end
+    end
+
+    mask
+  end
+
+  def self.from_png(file_name)
+    img = ChunkyPNG::Image.from_file(file_name)
+    rows = img.height
+    columns = img.width
+
+    mask = new(rows, columns)
+
+    mask.rows.times do |row|
+      mask.columns.times do |column|
+        mask[row, column] = (img[column, row] == ChunkyPNG::Color::BLACK)
       end
     end
 
