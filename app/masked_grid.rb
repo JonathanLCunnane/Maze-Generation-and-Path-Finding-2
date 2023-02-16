@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
-require_relative 'grid'
+require_relative 'colour_grid'
 
 # A grid which implements masking functionality using the Mask class.
-class MaskedGrid < Grid
+class MaskedGrid < ColourGrid
   attr_reader :mask
 
   def initialize(mask)
